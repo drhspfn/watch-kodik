@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Аниме Поиск и Просмотр</title>
+</head>
+<body>
+    <form id="searchForm">
+        <label for="search">Поиск:</label>
+        <input type="text" id="search" name="title">
+        <button type="submit">Найти</button>
+    </form>
+    <ul id="animeList"></ul>
+    <div id="watchContainer"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const searchForm = document.getElementById("searchForm");
+            const animeList = document.getElementById("animeList");
+            const watchContainer = document.getElementById("watchContainer");
+            
+            searchForm.addEventListener("submit", async function(event) {
+                event.preventDefault();
+                const searchInput = document.getElementById("search");
+                const title = searchInput.value;
+                const url = `https://kodikapi.com/search?token=b7cc4293ed475c4ad1fd599d114f4435&title=${title}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                displayAnimeList(data.results);
+            });
+            
+            function watchAnime(playerLink) {
+                watchContainer.innerHTML = `<iframe src="https:${playerLink}" width="100%" height="100%" frameborder="0" allowfullscreen=""></iframe>`;
+            }
+            
+            function displayAnimeList(data) {
+                animeList.innerHTML = "";
+                const seenNames = new Set();
+                
+                data.forEach(item => {
+                    if (!seenNames.has(item.title)) {
+                        seenNames.add(item.title);
+                        const listItem = document.createElement("li");
+                        const link = document.createElement("a");
+                        link.href = `https://kodik.cc${item.link}`;
+                        link.textContent = item.title;
+                        listItem.appendChild(link);
+                        listItem.addEventListener("click", function(event) {
+                            event.preventDefault();
+                            watchAnime(item.link);
+                            animeList.innerHTML = "";  // Удаляем список после выбора
+                        });
+                        animeList.appendChild(listItem);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,57 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Search and Watch anime | Kodik | Free</title>
-</head>
-<body>
+    <title>Dark Theme Page</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: Arial, sans-serif;
         }
 
         .container {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100vh;
+            background-color: #222;
+            color: white;
         }
 
-        .animeList {
-            flex: 1;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            overflow: auto;
-        }
-        #searchForm {
-            top: 30px;
-        }
-        #watchContainer{
-            flex: 1;
-            height: 100%;
-            background-color: lightgray;
-            overflow: auto;
+        .searchBlock {
             padding: 20px;
-            box-sizing: border-box;
-        }
-        #searchForm {
+            border-radius: 15px;
+            background-color: #333;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            margin-top: 50px;
+            justify-content: center;
+            margin: 20px;
         }
-        
+
+        .searchForm {
+            display: flex;
+            align-items: center;
+            width: 100%; /* Используем 100% ширины строки поиска */
+            max-width: 400px; /* Максимальная ширина для поисковой строки */
+        }
+
         #search {
-            width: 300px;
             padding: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
+            width: 100%; /* Используем 100% ширины поля ввода */
+            border: none;
             border-radius: 5px;
+            margin: 0;
+            height: 15px;
         }
-        
+
         #searchForm button {
-            margin-top: 10px;
             padding: 8px 16px;
             font-size: 16px;
             background-color: #007bff;
@@ -59,24 +53,58 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            height: 35px;
+            margin-left: 10px;
         }
 
-                
+        .linksBlock, .playerBlock {
+            padding: 20px;
+            border-radius: 15px;
+            background-color: #333;
+            margin: 20px;
+            overflow: auto;
+            display: none;
+        }
+
+        .link-item {
+            display: block;
+            margin: 5px 0;
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .link-item:hover {
+            text-decoration: underline;
+        }
+
+        .playerBlock {
+            flex: 3;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
-    <form id="searchForm">
-        <label for="search">Поиск:</label>
-        <input type="text" id="search" name="title">
-        <button type="submit">Найти</button>
-    </form>
+</head>
+<body>
     <div class="container">
-        <ul id="animeList"></ul>
-        <div id="watchContainer"></div>
+        <div class="searchBlock">
+            <form class="searchForm" id="searchForm">
+                <input type="text" id="search" name="title" placeholder="Поиск...">
+                <button type="submit">Найти</button>
+            </form>
+        </div>
+        <div class="linksBlock" id="linksBlock"></div>
+        <div class="playerBlock" id="playerBlock"></div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const searchForm = document.getElementById("searchForm");
-            const animeList = document.getElementById("animeList");
-            const watchContainer = document.getElementById("watchContainer");
+            const linksBlock = document.getElementById("linksBlock");
+            const playerBlock = document.getElementById("playerBlock");
             
             searchForm.addEventListener("submit", async function(event) {
                 event.preventDefault();
@@ -88,30 +116,33 @@
                 displayAnimeList(data.results);
             });
             
-            function watchAnime(playerLink) {
-                watchContainer.innerHTML = `<iframe src="https:${playerLink}" width="100%" height="100%" frameborder="0" allowfullscreen=""></iframe>`;
-            }
-            
             function displayAnimeList(data) {
-                animeList.innerHTML = "";
+                linksBlock.innerHTML = "";
                 const seenNames = new Set();
                 
                 data.forEach(item => {
                     if (!seenNames.has(item.title)) {
                         seenNames.add(item.title);
-                        const listItem = document.createElement("li");
-                        const link = document.createElement("a");
-                        link.href = `https://kodik.cc${item.link}`;
-                        link.textContent = item.title;
-                        listItem.appendChild(link);
-                        listItem.addEventListener("click", function(event) {
+                        const linkItem = document.createElement("a");
+                        linkItem.href = `https://kodik.cc${item.link}`;
+                        linkItem.textContent = item.title;
+                        linkItem.classList.add("link-item");
+                        linkItem.addEventListener("click", function(event) {
                             event.preventDefault();
-                            watchAnime(item.link);
-                            animeList.innerHTML = "";  // Удаляем список после выбора
+                            showPlayer(`https:${item.link}`);
                         });
-                        animeList.appendChild(listItem);
+                        linksBlock.appendChild(linkItem);
                     }
                 });
+                
+                linksBlock.style.display = "block";
+                playerBlock.style.display = "none";
+            }
+            
+            function showPlayer(playerLink) {
+                playerBlock.innerHTML = `<iframe src="${playerLink}" frameborder="0" allowfullscreen></iframe>`;
+                linksBlock.style.display = "none";
+                playerBlock.style.display = "block";
             }
         });
     </script>

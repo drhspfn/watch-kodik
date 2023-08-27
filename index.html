@@ -6,8 +6,9 @@
 <body>
     <style>
         #watchContainer iframe {
+            position: fixed;
             width: 100%;
-            height: 500px; /* Замените на нужную высоту */
+            height: 100%; /* Замените на нужную высоту */
             border: 0;
             allowfullscreen: true;
         }
@@ -38,7 +39,7 @@
             });
             
             function watchAnime(playerLink) {
-                watchContainer.innerHTML = `<iframe src="https:${playerLink}" width="100%" height="600px" frameborder="0" allowfullscreen=""></iframe>`;
+                watchContainer.innerHTML = `<iframe src="https:${playerLink}" width="100%" height="100%" frameborder="0" allowfullscreen=""></iframe>`;
             }
             
             function displayAnimeList(data) {

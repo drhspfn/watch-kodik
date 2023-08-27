@@ -2,6 +2,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Kodik Database Viewer.">
+    <meta name="keywords" content="kodikapi, kodik, anime, free anime, watch anime free">
+    <link rel="icon" href="https://www.icons101.com/icon_ico/id_69074/Images.ico" type="image/x-icon">
+
     <title>Search and Watch Anime | Kodik | Free</title>
     <style>
         body, html {
@@ -32,14 +36,14 @@
         .searchForm {
             display: flex;
             align-items: center;
-            width: 100%; /* Используем 100% ширины строки поиска */
-            max-width: 400px; /* Максимальная ширина для поисковой строки */
+            width: 100%; 
+            max-width: 400px; 
         }
 
         #search {
             padding: 10px;
             font-size: 16px;
-            width: 100%; /* Используем 100% ширины поля ввода */
+            width: 100%; 
             border: none;
             border-radius: 5px;
             margin: 0;
@@ -91,23 +95,23 @@
         
         @media (max-width: 768px) {
     .searchBlock {
-        flex-direction: column; /* Переключение на вертикальное выравнивание */
-        align-items: flex-start; /* Выравнивание по левому краю */
+        flex-direction: column; 
+        align-items: flex-start; 
     }
 
     .searchForm {
         flex-direction: column;
         align-items: center;
-        max-width: none; /* Убрать ограничение максимальной ширины */
+        max-width: none; 
     }
 
     #search {
-        width: 100%; /* Полная ширина поля ввода */
-        margin-bottom: 10px; /* Добавить небольшой отступ снизу */
+        width: 100%; 
+        margin-bottom: 10px; 
     }
 
     #searchForm button {
-        width: 100%; /* Полная ширина кнопки */
+        width: 100%; 
     }
 }
     </style>
@@ -116,7 +120,7 @@
     <div class="container">
         <div class="searchBlock">
             <form class="searchForm" id="searchForm">
-                <input type="text" id="search" name="title" placeholder="Поиск...">
+                <input type="text" id="search" name="title" placeholder="Search query...">
                 <button type="submit">Найти</button>
             </form>
         </div>
